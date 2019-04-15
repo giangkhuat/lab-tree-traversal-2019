@@ -72,6 +72,42 @@ public class BinaryTree<T> implements Iterable<T> {
   // | Helpers |
   // +---------+
 
+  public void printHelper(BinaryTreeNode<T> node, PrintWriter pen) {
+    // if root is null, return
+    if (node == null) {
+      return;
+    }
+
+    pen.print(" " + node.value);
+    printHelper(node.left, pen);
+    printHelper(node.right, pen);
+
+  }
+
+  public void printHelper2(BinaryTreeNode<T> node, PrintWriter pen) {
+    // if root is null, return
+    if (node == null) {
+      return;
+    }
+
+    printHelper2(node.left, pen);
+    pen.print(" " + node.value);
+    printHelper2(node.right, pen);
+    
+  }
+
+  public void elements02(PrintWriter pen) {
+    printHelper2(this.root, pen);
+    pen.println();
+    return;
+  }
+
+  public void elements01(PrintWriter pen) {
+    printHelper(this.root, pen);
+    pen.println();
+    return;
+  }
+
   /**
    * Dump a portion of the tree to some output location.
    */
