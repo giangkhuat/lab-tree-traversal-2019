@@ -3,6 +3,7 @@ import java.util.Iterator;
 
 /**
  * Simple binary trees.
+ * Traversal 
  */
 public class BinaryTree<T> implements Iterable<T> {
 
