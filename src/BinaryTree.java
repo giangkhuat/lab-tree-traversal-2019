@@ -1,9 +1,9 @@
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.Stack;
 
 /**
- * Simple binary trees.
- * Traversal 
+ * Simple binary trees. Traversal
  */
 public class BinaryTree<T> implements Iterable<T> {
 
@@ -14,7 +14,7 @@ public class BinaryTree<T> implements Iterable<T> {
   /**
    * The root of the tree
    */
-  BinaryTreeNode<T> root;
+   BinaryTreeNode<T> root;
 
   /**
    * The number of values in the tree.
@@ -57,13 +57,22 @@ public class BinaryTree<T> implements Iterable<T> {
    */
   public Iterator<T> iterator() {
     return new Iterator<T>() {
-      public boolean hasNext() {
-        // STUB
-        return false;
+      
+      BinaryTreeNode<T> current = root;
+      public boolean hasNext() {  
+        return (current.left != null || current.right != null);
       } // hasNext()
 
       public T next() {
-        // STUB
+       // first case: no hasNext return null
+        if (!hasNext()) {
+          return null;
+        } 
+        if (current.left != null) {
+          BinaryTreeNode<T> temp = current;
+          current = current.left;
+          return temp.value;
+        }
         return null;
       } // next()
     }; // new Iterator()
@@ -78,11 +87,9 @@ public class BinaryTree<T> implements Iterable<T> {
     if (node == null) {
       return;
     }
-
     pen.print(" " + node.value);
     printHelper(node.left, pen);
     printHelper(node.right, pen);
-
   }
 
   public void printHelper2(BinaryTreeNode<T> node, PrintWriter pen) {
@@ -94,7 +101,7 @@ public class BinaryTree<T> implements Iterable<T> {
     printHelper2(node.left, pen);
     pen.print(" " + node.value);
     printHelper2(node.right, pen);
-    
+
   }
 
   public void elements02(PrintWriter pen) {
@@ -139,4 +146,123 @@ public class BinaryTree<T> implements Iterable<T> {
     } // if/else
   } // makeTree(T[], int, int)
 
+  /****
+   * 
+   * Print all of the elements in some order or other.**Note: We are trying to avoid recursion.
+   */
+
+  // this is depth first preorder
+
+  public void printPreOrder(PrintWriter pen) {
+    // A collection of the remaining things to print
+    Stack<Object> remaining = new Stack<Object>();
+    remaining.push(this.root);
+    // Invariants:
+    // remaining only contains Strings or Nodes
+    // All values in the tree are either
+    // (a) already printed
+    // (b) in remaining
+    // (c) in or below a node in remaining
+    while (!remaining.isEmpty()) {
+      // popping the root in first iteration
+      Object next = remaining.pop();
+      if (next instanceof BinaryTreeNode<?>) {
+        @SuppressWarnings("unchecked")
+        BinaryTreeNode<T> node = (BinaryTreeNode<T>) next;
+        // if right is not null, push right first
+        if (node.right != null) {
+          remaining.push(node.right);
+        } // if (node.right!= null)
+        // if left not null, push left on top of right
+        if (node.left != null) {
+          remaining.push(node.left);
+        } // if (node.left != null)
+        // push the value (which is a string) last
+        remaining.push(node.value);
+      } else {
+        pen.print(next);
+        pen.print(" ");
+      } // if/else
+      // in the next iteration, when pop is called, we are popping the string first
+      // then else condition is executed
+    } // while
+    pen.println();
+  } // print(PrintWriter)
+
+  /*
+   * In what order do you expect it to print the values in the tree? we should expect the tree to be
+   * printed out depth first (go as deep left as you can) then go to right
+   */
+
+  public void printInOrder(PrintWriter pen) {
+    // A collection of the remaining things to print
+    Stack<Object> remaining = new Stack<Object>();
+    remaining.push(this.root);
+    // Invariants:
+    // remaining only contains Strings or Nodes
+    // All values in the tree are either
+    // (a) already printed
+    // (b) in remaining
+    // (c) in or below a node in remaining
+    while (!remaining.isEmpty()) {
+      // popping the root in first iteration
+      Object next = remaining.pop();
+      if (next instanceof BinaryTreeNode<?>) {
+        @SuppressWarnings("unchecked")
+        BinaryTreeNode<T> node = (BinaryTreeNode<T>) next;
+        // if right is not null, push right first
+        if (node.right != null) {
+          remaining.push(node.right);
+        } // if (node.right!= null)
+        // push the value (which is a string) last
+        remaining.push(node.value);
+        // if left not null, push left on top of right
+        if (node.left != null) {
+          remaining.push(node.left);
+        } // if (node.left != null)
+      } else {
+        pen.print(next);
+        pen.print(" ");
+      } // if/else
+      // in the next iteration, when pop is called, we are popping the string first
+      // then else condition is executed
+    } // while
+    pen.println();
+  } // print(PrintWriter)
+
+  public void printPostOrder(PrintWriter pen) {
+    // A collection of the remaining things to print
+    Stack<Object> remaining = new Stack<Object>();
+    remaining.push(this.root);
+    // Invariants:
+    // remaining only contains Strings or Nodes
+    // All values in the tree are either
+    // (a) already printed
+    // (b) in remaining
+    // (c) in or below a node in remaining
+    while (!remaining.isEmpty()) {
+      // popping the root in first iteration
+      Object next = remaining.pop();
+      if (next instanceof BinaryTreeNode<?>) {
+        @SuppressWarnings("unchecked")
+        BinaryTreeNode<T> node = (BinaryTreeNode<T>) next;
+        // push the value (which is a string) last
+        remaining.push(node.value);
+        // if right is not null, push right first
+        if (node.right != null) {
+          remaining.push(node.right);
+        } // if (node.right!= null)
+        // if left not null, push left on top of right
+        if (node.left != null) {
+          remaining.push(node.left);
+        } // if (node.left != null)
+      } else {
+        pen.print(next);
+        pen.print(" ");
+      } // if/else
+      // in the next iteration, when pop is called, we are popping the string first
+      // then else condition is executed
+    } // while
+    pen.println();
+  } // print(PrintWriter)
 } // class BinaryTree

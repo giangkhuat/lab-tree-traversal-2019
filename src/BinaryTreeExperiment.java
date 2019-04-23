@@ -19,7 +19,10 @@ public class BinaryTreeExperiment {
     BinaryTree<String> tree2 = new BinaryTree<String>(str2);
     
     tree.dump(pen);
-    tree.elements01(pen);
-    tree.elements02(pen);
+   // tree.elements01(pen);
+   // tree.elements02(pen);
+    tree.printPreOrder(pen);
+    tree.printInOrder(pen);
+    tree.printPostOrder(pen);
   } // main
 } // class BinaryTreeExperiment
