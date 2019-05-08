@@ -78,6 +78,42 @@ public class BinaryTree<T> implements Iterable<T> {
     }; // new Iterator()
   } // iterator()
 
+  /*
+  public Iterator<BinaryTreeNode<K,V>> iterator() {
+    return new Iterator<K,V>() {
+      SimpleQueue<Node<K,V>> q = new SimpleQueue<Node<K,V>>(root);
+
+      public boolean hasNext() {
+        return !q.isEmpty();
+      } // hasNext
+
+      public Node<K,V> next() {
+        Node<K,V> node = q.get(); // dequeue
+        if (node.left != null) { q.put(node.left); }
+        if (node.right != null) { q.put(node.right); }
+        return node;
+      } // next
+    }; // new Iterator<K,V>
+  } // iterator()
+
+  public Iterator<Pair<K,V>> iterator() {
+    return new Iterator<K,V>() {
+      SimpleQueue<Node<K,V>> q = new SimpleQueue<Node<K,V>>(root);
+
+      public boolean hasNext() {
+        return !q.isEmpty();
+      } // hasNext
+
+      public Pair<K,V> next() {
+        Node<K,V> node = q.get(); // dequeue
+        if (node.left != null) { q.put(node.left); }
+        if (node.right != null) { q.put(node.right); }
+        return new Pair<K,V>(node.key(), node.value());
+      } // next
+    }; // new Iterator<K,V>
+  } // iterator()
+
+  */
   // +---------+-----------------------------------------------------
   // | Helpers |
   // +---------+
@@ -194,7 +230,7 @@ public class BinaryTree<T> implements Iterable<T> {
    * printed out depth first (go as deep left as you can) then go to right
    */
 
-  public void printInOrder(PrintWriter pen) {
+  public void                                                                                                                                                         (PrintWriter pen) {
     // A collection of the remaining things to print
     Stack<Object> remaining = new Stack<Object>();
     remaining.push(this.root);
