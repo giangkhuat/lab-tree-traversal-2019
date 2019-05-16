@@ -52,6 +52,30 @@ public class BinaryTree<T> implements Iterable<T> {
     dump(pen, root, "");
   } // dump(PrintWriter)
 
+  
+  public Iterator<T> iterator() {
+    return new Iterator<T>() {
+      
+      BinaryTreeNode<T> current = root;
+      public boolean hasNext() {  
+        return (current.left != null || current.right != null);
+      } // hasNext()
+
+      public T next() {
+       // first case: no hasNext return null
+        if (!hasNext()) {
+          return null;
+        } 
+        if (current.left != null) {
+          BinaryTreeNode<T> temp = current;
+          current = current.left;
+          return temp.value;
+        }
+        return null;
+      } // next()
+    }; // new Iterator()
+  } // iterator()
+  
   /**
    * Get an breadth-first iterator for the tree.
    */
