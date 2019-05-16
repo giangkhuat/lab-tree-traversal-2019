@@ -1,7 +1,7 @@
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.Stack;
-
+import java.util.Queue;
 /**
  * Simple binary trees. Traversal
  */
@@ -53,30 +53,78 @@ public class BinaryTree<T> implements Iterable<T> {
   } // dump(PrintWriter)
 
   /**
-   * Get an iterator for the tree.
+   * Get an breadth-first iterator for the tree.
    */
-  public Iterator<T> iterator() {
+  public Iterator<T> breadthIterator() {
     return new Iterator<T>() {
       
-      BinaryTreeNode<T> current = root;
+      SimpleQueue<Node<K, V>> queue = new SimpleQueue<Node<K, V>>(root);
       public boolean hasNext() {  
-        return (current.left != null || current.right != null);
+        return  !queue.isEmpty();
       } // hasNext()
 
-      public T next() {
+      public BinayTreeNode<K, V> next() {
+        BinaryTreeNode<K, V> node = queue.get();
        // first case: no hasNext return null
         if (!hasNext()) {
           return null;
-        } 
-        if (current.left != null) {
-          BinaryTreeNode<T> temp = current;
-          current = current.left;
-          return temp.value;
         }
-        return null;
+        else {
+          if (node.left != null) {
+            queue.put(node.left);
+          }
+          if (node.right != null) {
+            queue.put(node.right);
+          }
+          return node;
+        }
       } // next()
     }; // new Iterator()
   } // iterator()
+  
+  
+  
+  public Iterator<T> depthIterator() {
+    return new Iterator<T>() {
+      
+      SimpleStack<BinaryTreeNode<K, V>> stack = new SimpleStack<BinayTreeNode<K, V>>(root);
+      public boolean hasNext() {  
+        return  !stack.isEmpty();
+      } // hasNext()
+
+      public BinayTreeNode<K, V> next() {
+        BinaryTreeNode<K, V> node = stack.get();
+       // first case: no hasNext return null
+        if (!hasNext()) {
+          return null;
+        }
+        else {
+          if (node.right != null) {
+            queue.put(node.right);
+          }
+          if (node.left != null) {
+            queue.put(node.left);
+          }      
+          return node;
+        }
+      } // next()
+    }; // new Iterator()
+  } // iterator()
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   // +---------+-----------------------------------------------------
   // | Helpers |
@@ -265,4 +313,35 @@ public class BinaryTree<T> implements Iterable<T> {
     } // while
     pen.println();
   } // print(PrintWriter)
+  /*
+   * How do we do depth-first traversal that is not preorder.
+
+Key idea: Put two kinds of values in the stack: Nodes or Pairs
+Old:
+Pop
+Push non-null children (right-to-left)
+Return what we just popped
+New:
+Pop
+If it’s a node
+Push its key/value pair
+Push non-null right child
+Push non-null left child
+If it’s a pair
+Return it
+Depth-first, left-to-right, postorder
+Do inorder: push right, push key/value, push left
+Do preorder push right, push left, push key/value
+Do depth-first right-to-left postorder: push key/value, push left, push right
+   */
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 } // class BinaryTree
